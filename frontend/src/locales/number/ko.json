@@ -1,0 +1,19 @@
+{
+  "short": {
+    "year": "numeric",
+    "month": "2-digit",
+    "day": "2-digit"
+    },
+  "long": {
+    "year": "numeric",
+    "month": "2-digit",
+    "day": "numeric",
+    "hour": "numeric",
+    "minute": "2-digit",
+    "hour12": false
+  },
+  "currency": {
+    "style": "currency",
+    "currency": "KRW"      
+  }       
+}

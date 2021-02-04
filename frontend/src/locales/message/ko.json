@@ -1,0 +1,20 @@
+{
+  "title" : "프론트엔드",
+  "showing_currentPage_to_pagesize_of_totalElements_entries": "<b>{totalItems}</b>개 항목 중 <b>{currentPage}</b>~<b>{pageSize}</b>개 표시",
+
+  "dashboard" : "대시보드",
+
+  "user" : "회원",
+  "user_id" : "식별자",
+  "user_email" : "이메일",
+  "user_password" : "비밀번호",
+  "user_roles" : "역할",
+  "user_first_name" : "이름",
+  "user_last_name" : "성",
+
+  "notice" : "게시물",
+  "notice_id" : "식별자",
+  "notice_title" : "제목",
+  "notice_cont" : "내용",
+  "notice_tp" : "분류"
+}

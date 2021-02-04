@@ -1,0 +1,39 @@
+{
+  "short": {
+    "year": "numeric",
+    "month": "2-digit",
+    "day": "2-digit"
+    },
+  "long": {
+    "year": "numeric",
+    "month": "2-digit",
+    "day": "2-digit",
+    "hour": "numeric",
+    "minute": "2-digit",
+    "hour12": false,
+    "second": "numeric"
+  },
+  "daytime": {
+    "month": "2-digit",
+    "day": "2-digit",    
+    "hour": "numeric",
+    "minute": "2-digit",
+    "hour12": false,
+    "second": "numeric"    
+  },    
+  "time": {
+    "hour": "numeric",
+    "minute": "2-digit",
+    "hour12": false,
+    "second": "numeric"     
+  },
+  "timenosecond": {
+    "hour": "numeric",
+    "minute": "2-digit",
+    "hour12": false     
+  },  
+  "currency": {
+    "style": "currency",
+    "currency": "USD"
+  }       
+}

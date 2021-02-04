@@ -1,0 +1,139 @@
+buildscript {
+    ext {
+        springBootVersion = '2.1.1.RELEASE'
+        querydslPluginVersion = '1.0.10'
+    }
+    repositories {
+        mavenCentral()
+        maven { url "https://plugins.gradle.org/m2/" } // plugin 저장소
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("gradle.plugin.com.ewerk.gradle.plugins:querydsl-plugin:${querydslPluginVersion}")
+    }
+}
+
+plugins {
+	id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
+	id 'org.springframework.boot' version '2.2.6.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+	id 'java'
+	id 'war'
+	id "com.moowork.node" version "1.3.1"
+}
+
+node {
+	version = '12.5.0'
+	npmVersion = '6.9.0'
+	workDir = file("./src/frontend")
+	npmWorkDir = file("./src/frontend")
+	nodeModulesDir = file("./src/frontend")
+}
+
+group = 'com.bottlehs.springboot.backend'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8' // Java 8버전
+targetCompatibility = '1.8' // Java 8버전
+
+bootWar{ //bootWar Task시 이름 지정
+	archiveBaseName="efin"
+	archiveFileName="efin.war"	
+	archiveVersion="0.0.1-SNAPSHOT"
+}
+
+configurations {
+	all {
+			exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+	}	
+	developmentOnly
+	runtimeClasspath {
+		extendsFrom developmentOnly
+	}
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+		// spring
+		compile 'org.apache.tomcat.embed:tomcat-embed-jasper'  //내장톰캣
+		implementation 'org.springframework.boot:spring-boot-starter-web'
+		providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat' 
+		implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    compile 'org.springframework.boot:spring-boot-starter-log4j2'   // log4j2
+		
+		// jwt
+    implementation 'io.jsonwebtoken:jjwt:0.9.1'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    testImplementation 'org.springframework.security:spring-security-test'
+
+	  // swagger
+    compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
+    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'	
+
+		// jpa
+		compile 'javax.servlet:jstl:1.2'    // jsp 의존성
+		compile 'org.mariadb.jdbc:mariadb-java-client' // MariaDB
+    compile group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-yaml', version: '2.10.3'   // log4j2		
+    compile("com.querydsl:querydsl-jpa")
+    compile("com.querydsl:querydsl-apt")
+
+		// json
+		compile group: 'com.google.code.gson', name: 'gson', version: '2.7'
+
+		compileOnly 'org.projectlombok:lombok'
+		developmentOnly 'org.springframework.boot:spring-boot-devtools'
+		annotationProcessor 'org.projectlombok:lombok'
+		testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+}
+
+task setUp(type: NpmTask) {
+	description = "Install Node.js packages"
+	args = ['install']
+	inputs.files file('package.json')
+	outputs.files file('node_modules')
+}
+
+task buildFrontEnd(type: NpmTask, dependsOn: setUp) {
+	description = "Build vue.js"
+	args = ['run','build']
+}
+
+processResources.dependsOn 'buildFrontEnd'
+
+// querydsl 적용
+apply plugin: "com.ewerk.gradle.plugins.querydsl" // Plugin 적용
+def querydslSrcDir = 'src/main/generated' // QClass 생성 위치
+
+querydsl {
+    library = "com.querydsl:querydsl-apt"
+    jpa = true
+    querydslSourcesDir = querydslSrcDir
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java', querydslSrcDir]
+        }
+    }
+}
+
+compileQuerydsl{
+    options.annotationProcessorPath = configurations.querydsl
+}
+
+configurations {
+    querydsl.extendsFrom compileClasspath
+}
+
+test {
+	useJUnitPlatform()
+}
