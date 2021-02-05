@@ -1,8 +1,5 @@
 import Jwt from "./jwt";
 
-let isRefreshing = false;
-let failedQueue = [];
-
 const processQueue = (error, accessToken = null) => {
   failedQueue.forEach(prom => {
     if (error) {
@@ -25,6 +22,7 @@ const interceptor = axiosInstance => error => {
       console.log("/oauth/login");
       Promise.reject(error);
     } else if (error.response.status === 401 && !originalRequest._retry) {
+      /*
       if (isRefreshing) {
         return new Promise(function(resolve, reject) {
           failedQueue.push({ resolve, reject });
@@ -66,6 +64,7 @@ const interceptor = axiosInstance => error => {
             isRefreshing = false;
           });
       });
+      */
     } else if (error.response.status == 400) {
       if (originalRequest.url.indexOf("/api/oauth/refresh") == 0) {
         // 리프레시토큰 요청후 실패 > 로그아웃

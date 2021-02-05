@@ -2,7 +2,11 @@
   <div class="list">
     <b-container fluid>
       <!-- 검색 폼 -->
-      <b-row> </b-row>
+      <b-row>
+          <b-link :to="{ name: 'UserEdit' }">
+            <b-icon-pencil></b-icon-pencil>
+          </b-link>
+      </b-row>
 
       <!-- 검색 결과 -->
       <b-table
@@ -21,10 +25,10 @@
         </template>
 
         <template #cell(regDt)="row">
-          {{ $d(row.item.regDt, "long") }}
+          {{ row.item.regDt }}
         </template>
         <template #cell(modDt)="row">
-          {{ $d(row.item.modDt, "long") }}
+          {{ row.item.modDt }}
         </template>
         <template #cell(actions)="row">
           <b-link :to="{ name: 'UserId', params: { id: row.item.id } }">
