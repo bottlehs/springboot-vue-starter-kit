@@ -1,9 +1,9 @@
-import { fireEvent, screen } from '@testing-library/vue'
-import { render as r } from '../render'
-import oauthService from '../../src/services/oauth.service'
-import App from '../../src/App'
+import { fireEvent, screen } from "@testing-library/vue";
+import { render as r } from "../render";
+import oauthService from "../../src/services/oauth.service";
+import App from "../../src/App";
 
-jest.mock('../../src/services/oauth.service')
+jest.mock("../../src/services/oauth.service");
 
 beforeEach(() => {
   /*
@@ -11,29 +11,29 @@ beforeEach(() => {
     .mockImplementation(page => page === 1 ? { data: starshipsData } : { data: starshipsData2 })
   getStarship.mockResolvedValue({ data: falconData })
   */
-})
+});
 
-afterEach(jest.resetAllMocks)
+afterEach(jest.resetAllMocks);
 
-async function render () {
-  const utils = r(App)
-  await fireEvent.click(utils.getByText('Catalog'))
-  return utils
+async function render() {
+  const utils = r(App);
+  await fireEvent.click(utils.getByText("Catalog"));
+  return utils;
 }
 
-describe('Catalog', () => {
-  it('should render', () => {
+describe("Catalog", () => {
+  it("should render", () => {
     // render(App)
-  })
+  });
 
-  it('should be able to load more data', async () => {
+  it("should be able to load more data", async () => {
     const params = {
       email: "a9cc15ad-de55-4550-8bfb-50b58acd1818@email.com",
       password: "password123"
-    }
-    oauthService.login.mockImplementation(params)
+    };
+    oauthService.login.mockImplementation(params);
     // await render(App)
-  })
+  });
 
   /*
   it('should show products name, detail and price', async () => {
@@ -110,4 +110,4 @@ describe('Catalog', () => {
     expect(getStarships).toHaveBeenCalledTimes(1)
   })
   */
-})
+});

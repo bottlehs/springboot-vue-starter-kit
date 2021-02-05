@@ -50,7 +50,7 @@ export default new Vuex.Store({
           const { data } = response;
           commit("LOGIN", {
             token: data,
-            refreshToken: ''
+            refreshToken: ""
           });
 
           return response;

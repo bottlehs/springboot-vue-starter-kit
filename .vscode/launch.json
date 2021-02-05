@@ -1,0 +1,14 @@
+{
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Spring Boot-RestApiApplication<springboot_backend>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "console": "internalConsole",
+      "mainClass": "com.bottlehs.springboot.backend.springboot_backend.api.RestApiApplication",
+      "projectName": "springboot_backend",
+      "args": ""
+    }
+  ]
+}

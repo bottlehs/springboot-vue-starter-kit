@@ -1,6 +1,11 @@
 <template>
   <div class="view">
-    PostsView
+    <div v-if="wait" class="d-flex justify-content-center mb-3">
+      <b-spinner label="Loading..."></b-spinner>
+    </div>
+    <div v-else>
+      NoticeView
+    </div>
   </div>
 </template>
 
@@ -49,7 +54,7 @@ export default {
       )
     ) {
       this.id = this.$router.currentRoute.params.id;
-      this.findOne();
+      this.getId();
     }
   },
   mounted() {
@@ -72,13 +77,13 @@ export default {
     /**
      * methods
      */
-    findOne() {
-      this.wait = false;
-      NoticeService.findOne(this.id).then(
+    getId() {
+      this.wait = true;
+      NoticeService.getId(this.id).then(
         response => {
           const { data } = response;
           this.item = data;
-          this.wait = true;
+          this.wait = false;
         },
         error => {
           console.log(error);

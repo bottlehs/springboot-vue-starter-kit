@@ -5,12 +5,32 @@
       <b-row> </b-row>
 
       <!-- 검색 결과 -->
-      <b-table striped hover :items="items" :fields="fields">
+      <b-table
+        striped
+        responsive
+        hover
+        :busy="wait"
+        :items="items"
+        :fields="fields"
+      >
+        <template #table-busy>
+          <div class="text-center text-danger my-2">
+            <b-spinner class="align-middle"></b-spinner>
+            <strong>Loading...</strong>
+          </div>
+        </template>
+
+        <template #cell(regDt)="row">
+          {{ $d(row.item.regDt, "long") }}
+        </template>
+        <template #cell(modDt)="row">
+          {{ $d(row.item.modDt, "long") }}
+        </template>
         <template #cell(actions)="row">
-          <b-link :to="{ name: 'PostsId', params: { id: row.item.id } }">
+          <b-link :to="{ name: 'NoticeId', params: { id: row.item.id } }">
             <b-icon-search></b-icon-search>
           </b-link>
-          <b-link :to="{ name: 'PostsEditId', params: { id: row.item.id } }">
+          <b-link :to="{ name: 'NoticeEditId', params: { id: row.item.id } }">
             <b-icon-pencil></b-icon-pencil>
           </b-link>
         </template>
@@ -22,10 +42,10 @@
           <div
             align="left"
             v-html="
-              $t('showing_currentPage_to_pagesize_of_totalitems_entries', {
+              $t('showing_currentPage_to_pagesize_of_totalElements_entries', {
                 currentPage: $n(currentPage),
                 pageSize: $n(pageSize),
-                totalItems: $n(totalItems)
+                totalElements: $n(totalElements)
               })
             "
           ></div>
@@ -67,13 +87,13 @@ export default {
        * items : 응답 리스트 데이터
        * page : 검색결과 페이지 데이터
        * wait : 로딩
-       * totalItems : 전체 데이터수
+       * totalElements : 전체 데이터수
        * totalPages : 전체 페이지수
        * currentPage : 현제 페이지
        * pageSize: 페이지 요청 데이터수
        */
       wait: false,
-      search: {
+      searchForm: {
         /**
          * type : 검색항목
          * q : 검색어
@@ -84,45 +104,39 @@ export default {
       fields: [
         {
           /**
-           * users id (후보키) */
-          key: "usersId",
-          label: this.$t("posts_users_id")
+           * 식별자 */
+          key: "id",
+          label: this.$t("notice_id")
         },
         {
           /**
            * 제목 */
           key: "title",
-          label: this.$t("posts_title")
+          label: this.$t("notice_title")
         },
         {
           /**
            * 내용 */
-          key: "content",
-          label: this.$t("posts_content")
+          key: "cont",
+          label: this.$t("notice_cont")
         },
         {
           /**
-           * 상태 */
-          key: "status",
-          label: this.$t("posts_status")
+           * 분류 */
+          key: "tp",
+          label: this.$t("notice_tp")
         },
         {
           /**
-           * 댓글 상태 */
-          key: "commentsStatus",
-          label: this.$t("posts_comments_status")
+           * 등록날짜 */
+          key: "reg_dt",
+          label: this.$t("notice_reg_dt")
         },
         {
           /**
-           * 유형 */
-          key: "type",
-          label: this.$t("posts_type")
-        },
-        {
-          /**
-           * 댓글수 */
-          key: "commentsCount",
-          label: this.$t("posts_comments_count")
+           * 수정날짜 */
+          key: "mod_dt",
+          label: this.$t("notice_mod_dt")
         },
         {
           /**
@@ -133,8 +147,8 @@ export default {
         }
       ],
       items: [],
-      totalItems: 0,
-      totalPages: 0,
+      totalElements: 0,
+      totalPages: 1,
       currentPage: 1,
       pageSize: 10
     };
@@ -163,7 +177,7 @@ export default {
       this.search.q = this.$router.currentRoute.query.q;
     }
 
-    this.findAll();
+    this.search();
   },
   mounted() {
     /**
@@ -185,8 +199,8 @@ export default {
     /**
      * methods
      */
-    findAll() {
-      this.wait = false;
+    search() {
+      this.wait = true;
 
       const params = {
         page: this.currentPage,
@@ -197,13 +211,13 @@ export default {
         params[this.search.type] = this.search.q;
       }
 
-      NoticeService.findAll(params).then(
+      NoticeService.search(params).then(
         response => {
           const { data } = response;
-          this.totalItems = data.totalItems;
+          this.totalElements = data.totalElements;
           this.totalPages = data.totalPages;
-          this.items = data.items;
-          this.wait = true;
+          this.items = data.content;
+          this.wait = false;
         },
         error => {
           console.log(error);
@@ -212,7 +226,7 @@ export default {
     },
     pageLink(button, page) {
       this.currentPage = page;
-      this.findAll();
+      this.search();
     },
     linkGen(pageNum) {
       const query = {};
@@ -224,7 +238,7 @@ export default {
       query.page = pageNum;
 
       return {
-        path: "/posts/",
+        path: "/notice/",
         query: query
       };
     }

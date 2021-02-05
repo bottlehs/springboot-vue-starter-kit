@@ -1,8 +1,22 @@
 {
   "title" : "프론트엔드",
-  "showing_currentPage_to_pagesize_of_totalElements_entries": "<b>{totalItems}</b>개 항목 중 <b>{currentPage}</b>~<b>{pageSize}</b>개 표시",
+  "showing_currentPage_to_pagesize_of_totalElements_entries": "<b>{totalElements}</b>개 항목 중 <b>{currentPage}</b>~<b>{pageSize}</b>개 표시",
+  "modify" : "수정",
+  "add" : "추가",
+  "cancel" : "취소",
+  "remove" : "삭제",
+  "add_text" : "추가 하시겠습니까?",
+  "remove_text" : "삭제 하시겠습니까?",
+  "cancel_text" : "취소 하시겠습니까?",
+  "successful" : "성공",
+  "failure" : "실패",
 
   "dashboard" : "대시보드",
+
+  "login" : "로그인",
+  "login_login" : "로그인",
+  "login_email" : "이메일",
+  "login_password" : "비밀번호",
 
   "user" : "회원",
   "user_id" : "식별자",
@@ -11,10 +25,14 @@
   "user_roles" : "역할",
   "user_first_name" : "이름",
   "user_last_name" : "성",
+  "user_reg_dt" : "등록날짜",
+  "user_mod_dt" : "수정날짜",
 
-  "notice" : "게시물",
+  "notice" : "공지사항",
   "notice_id" : "식별자",
   "notice_title" : "제목",
   "notice_cont" : "내용",
-  "notice_tp" : "분류"
+  "notice_tp" : "분류",
+  "notice_reg_dt" : "등록날짜",
+  "notice_mod_dt" : "수정날짜"
 }

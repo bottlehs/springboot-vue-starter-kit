@@ -1,43 +1,46 @@
 <template>
   <div class="login">
-    OauthLogin
+    {{ $t("login") }}
     <ValidationObserver v-slot="{ invalid }">
       <form @submit.prevent="onSubmit" @reset="onReset">
         <ValidationProvider
           ref="validationFormEmail"
-          name="이메일"
+          :name="$t('login_email')"
           rules="required|email"
           v-slot="{ errors }"
         >
           <label>
-            이메일
+            {{ $t("login_email") }}
             <input
               ref="formEmail"
               type="text"
               v-model="form.email"
-              placeholder="이메일 입력"
+              :placeholder="$t('login_email')"
             />
             {{ errors[0] }}
           </label>
         </ValidationProvider>
         <ValidationProvider
           ref="validationFormPassword"
-          name="비밀번호"
+          :name="$t('login_password')"
           rules="required"
           v-slot="{ errors }"
         >
           <label>
-            비밀번호
+            {{ $t("login_password") }}
             <input
               ref="formPassword"
               type="password"
               v-model="form.password"
-              placeholder="비밀번호 입력"
+              :placeholder="$t('login_password')"
             />
             {{ errors[0] }}
           </label>
         </ValidationProvider>
-        <button type="submit" :disabled="invalid || formSend">로그인</button>
+        <button type="submit" :disabled="invalid || formWait">
+          <b-spinner v-if="formWait" small></b-spinner>
+          {{ $t("login_login") }}
+        </button>
       </form>
     </ValidationObserver>
   </div>
@@ -122,6 +125,8 @@ export default {
               Object.prototype.hasOwnProperty.call(response.data, "message")
             ) {
               alert(response.data.message);
+            } else {
+              alert(this.$t("failure"));
             }
           }
         })

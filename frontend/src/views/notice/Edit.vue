@@ -1,6 +1,86 @@
 <template>
   <div class="edit">
-    NoticeEdit
+    <div v-if="wait && id" class="d-flex justify-content-center mb-3">
+      <b-spinner label="Loading..."></b-spinner>
+    </div>
+    <div v-else>
+      <ValidationObserver v-slot="{ invalid }">
+        <form @submit.prevent="onSubmit" @reset="onReset">
+          <ValidationProvider
+            ref="validationFormTitle"
+            :name="$t('notice_title')"
+            rules="required"
+            v-slot="{ errors }"
+          >
+            <label>
+              {{ $t("notice_title") }}
+              <input
+                ref="formTitle"
+                type="text"
+                v-model="form.title"
+                :placeholder="$t('notice_title')"
+              />
+              {{ errors[0] }}
+            </label>
+          </ValidationProvider>
+          <ValidationProvider
+            ref="validationFormCont"
+            :name="$t('notice_cont')"
+            rules="required"
+            v-slot="{ errors }"
+          >
+            <label>
+              {{ $t("notice_cont") }}
+              <input
+                ref="formCont"
+                type="text"
+                v-model="form.cont"
+                :placeholder="$t('notice_cont')"
+              />
+              {{ errors[0] }}
+            </label>
+          </ValidationProvider>
+
+          <ValidationProvider
+            ref="validationFormTp"
+            :name="$t('notice_tp')"
+            rules="required"
+            v-slot="{ errors }"
+          >
+            <label>
+              {{ $t("notice_tp") }}
+              <input
+                ref="formTp"
+                type="text"
+                v-model="form.tp"
+                :placeholder="$t('notice_tp')"
+              />
+              {{ errors[0] }}
+            </label>
+          </ValidationProvider>
+          <button type="submit" :disabled="invalid || formWait">
+            <b-spinner
+              v-if="formWait && formAction == 'onSubmit'"
+              small
+            ></b-spinner
+            >{{ id ? $t("modify") : $t("add") }}
+          </button>
+          <button type="reset" :disabled="formWait">{{ $t("cancel") }}</button>
+          <button
+            v-if="id"
+            type="button"
+            @click.prevent.stop="remove"
+            :disabled="formWait"
+          >
+            <b-spinner
+              v-if="formWait && formAction == 'remove'"
+              small
+            ></b-spinner
+            >{{ $t("remove") }}
+          </button>
+        </form>
+      </ValidationObserver>
+    </div>
   </div>
 </template>
 
@@ -38,23 +118,16 @@ export default {
       id: 0,
       wait: false,
       formWait: false,
+      formAction: "",
       form: {
         /**
-         * usersId: users id (후보키)
          * title: 제목
-         * content: 내용
-         * status: 상태
-         * commentsStatus: 댓글 상태
-         * type: 유형
-         * commentsCount: 댓글수
+         * cont: 내용
+         * tp: 분류
          */
-        usersId: "",
         title: "",
-        content: "",
-        status: "",
-        commentsStatus: "",
-        type: "",
-        commentsCount: ""
+        cont: "",
+        tp: ""
       },
       item: {}
     };
@@ -70,7 +143,7 @@ export default {
       )
     ) {
       this.id = this.$router.currentRoute.params.id;
-      this.findOne();
+      this.getId();
     }
   },
   mounted() {
@@ -93,42 +166,107 @@ export default {
     /**
      * methods
      */
-    findOne() {
-      this.wait = false;
-      NoticeService.findOne(this.id).then(
+    getId() {
+      this.wait = true;
+      NoticeService.getId(this.id).then(
         response => {
           const { data } = response;
           this.item = data;
 
           // form
-          if (Object.prototype.hasOwnProperty.call(data, "usersId")) {
-            this.form.usersId = data.usersId;
-          }
           if (Object.prototype.hasOwnProperty.call(data, "title")) {
             this.form.title = data.title;
           }
-          if (Object.prototype.hasOwnProperty.call(data, "content")) {
-            this.form.content = data.content;
+          if (Object.prototype.hasOwnProperty.call(data, "cont")) {
+            this.form.cont = data.cont;
           }
-          if (Object.prototype.hasOwnProperty.call(data, "status")) {
-            this.form.status = data.status;
-          }
-          if (Object.prototype.hasOwnProperty.call(data, "commentsStatus")) {
-            this.form.commentsStatus = data.commentsStatus;
-          }
-          if (Object.prototype.hasOwnProperty.call(data, "type")) {
-            this.form.type = data.type;
-          }
-          if (Object.prototype.hasOwnProperty.call(data, "commentsCount")) {
-            this.form.commentsCount = data.commentsCount;
+          if (Object.prototype.hasOwnProperty.call(data, "tp")) {
+            this.form.tp = data.tp;
           }
 
-          this.wait = true;
+          this.wait = false;
         },
         error => {
           console.log(error);
         }
       );
+    },
+    async onSubmit(evt) {
+      evt.preventDefault();
+
+      this.formWait = false;
+
+      let params = {
+        title: this.form.title,
+        cont: this.form.cont,
+        tp: this.form.tp
+      };
+
+      if (this.id) {
+        // 수정
+        NoticeService.modify(this.id, params).then(
+          response => {
+            const { data } = response;
+            this.item = data;
+
+            alert(this.$t("successful"));
+            this.$router.go(-1);
+
+            this.formWait = false;
+          },
+          error => {
+            alert(this.$t("failure"));
+            console.log(error);
+          }
+        );
+      } else {
+        // 등록
+        NoticeService.add(params).then(
+          response => {
+            const { data } = response;
+            this.item = data;
+
+            alert(this.$t("successful"));
+            this.$router.go(-1);
+
+            this.formWait = false;
+          },
+          error => {
+            if (
+              Object.prototype.hasOwnProperty.call(response.data, "message")
+            ) {
+              alert(response.data.message);
+            } else {
+              alert(this.$t("failure"));
+            }
+            console.log(error);
+          }
+        );
+      }
+    },
+    onReset(evt) {
+      evt.preventDefault();
+
+      this.$router.go(-1);
+    },
+    remove() {
+      if (confirm(this.$t("remove_text"))) {
+        NoticeService.remove(this.id).then(
+          response => {
+            const { data } = response;
+            this.item = data;
+
+            alert(this.$t("successful"));
+            this.$router.go(-1);
+
+            this.formWait = false;
+          },
+          error => {
+            alert(this.$t("failure"));
+            console.log(error);
+          }
+        );
+      }
     }
   }
 };
