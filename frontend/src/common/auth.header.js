@@ -5,7 +5,7 @@ export default function authHeader() {
 
   if (accessToken) {
     return {
-      'X-AUTH-TOKEN': accessToken
+      "X-AUTH-TOKEN": accessToken
     };
   } else {
     return {};

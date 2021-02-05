@@ -1,6 +1,6 @@
 <template>
   <div class="view">
-    dashboard
+    {{ $t("dashboard") }}
   </div>
 </template>
 

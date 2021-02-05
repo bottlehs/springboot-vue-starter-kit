@@ -5,12 +5,32 @@
       <b-row> </b-row>
 
       <!-- 검색 결과 -->
-      <b-table striped hover :items="items" :fields="fields">
+      <b-table
+        striped
+        responsive
+        hover
+        :busy="wait"
+        :items="items"
+        :fields="fields"
+      >
+        <template #table-busy>
+          <div class="text-center text-danger my-2">
+            <b-spinner class="align-middle"></b-spinner>
+            <strong>Loading...</strong>
+          </div>
+        </template>
+
+        <template #cell(regDt)="row">
+          {{ $d(row.item.regDt, "long") }}
+        </template>
+        <template #cell(modDt)="row">
+          {{ $d(row.item.modDt, "long") }}
+        </template>
         <template #cell(actions)="row">
-          <b-link :to="{ name: 'UsersId', params: { id: row.item.id } }">
+          <b-link :to="{ name: 'UserId', params: { id: row.item.id } }">
             <b-icon-search></b-icon-search>
           </b-link>
-          <b-link :to="{ name: 'UsersEditId', params: { id: row.item.id } }">
+          <b-link :to="{ name: 'UserEditId', params: { id: row.item.id } }">
             <b-icon-pencil></b-icon-pencil>
           </b-link>
         </template>
@@ -113,15 +133,27 @@ export default {
           /**
            * 이름
            */
-          key: "firstname",
-          label: this.$t("user_firstname")
+          key: "firstName",
+          label: this.$t("user_first_name")
         },
         {
           /**
            * 성
            */
-          key: "lastname",
-          label: this.$t("user_lastname")
+          key: "lastName",
+          label: this.$t("user_last_name")
+        },
+        {
+          /**
+           * 등록날짜 */
+          key: "regDt",
+          label: this.$t("user_reg_dt")
+        },
+        {
+          /**
+           * 수정날짜 */
+          key: "modDt",
+          label: this.$t("user_mod_dt")
         },
         {
           /**
@@ -191,7 +223,7 @@ export default {
       evt.preventDefault();
     },
     search() {
-      this.wait = false;
+      this.wait = true;
 
       const params = {
         page: this.currentPage,
@@ -208,7 +240,7 @@ export default {
           this.totalElements = data.totalElements;
           this.totalPages = data.totalPages;
           this.items = data.content;
-          this.wait = true;
+          this.wait = false;
         },
         error => {
           console.log(error);
@@ -229,7 +261,7 @@ export default {
       query.page = pageNum;
 
       return {
-        path: "/users/",
+        path: "/user/",
         query: query
       };
     }

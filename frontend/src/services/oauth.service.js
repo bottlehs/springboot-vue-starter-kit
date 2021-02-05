@@ -5,8 +5,8 @@ const SERVICE_API_URL = "/api";
 class OauthService {
   login(params = {}) {
     let form = new FormData();
-    form.append('email', params.email);
-    form.append('password',params.password)
+    form.append("email", params.email);
+    form.append("password", params.password);
 
     return http.post(SERVICE_API_URL + "/login", form, {
       headers: authHeader()
