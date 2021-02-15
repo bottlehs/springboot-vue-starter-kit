@@ -1,5 +1,5 @@
 {
-  "title" : "프론트엔드",
+  "title" : "frontend",
   "showing_currentPage_to_pagesize_of_totalElements_entries": "<b>{totalElements}</b>개 항목 중 <b>{currentPage}</b>~<b>{pageSize}</b>개 표시",
   "modify" : "수정",
   "add" : "추가",
@@ -10,6 +10,10 @@
   "cancel_text" : "취소 하시겠습니까?",
   "successful" : "성공",
   "failure" : "실패",
+  "logout" : "로그아웃",
+
+  "lang_ko" : "한국어",
+  "lang_en" : "영어",
 
   "dashboard" : "대시보드",
 

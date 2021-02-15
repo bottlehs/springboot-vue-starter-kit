@@ -62,22 +62,10 @@ export default new Vuex.Store({
       );
     },
     // 로그아웃
-    LOGOUT({ commit }, { provider, userId, accessToken }) {
-      return OauthService.logout({
-        provider,
-        userId,
-        accessToken
-      }).then(
-        response => {
-          const { data } = response;
-          console.log(data);
-          window.location.replace(data);
-          commit("LOGOUT");
-        },
-        error => {
-          console.log(error);
-        }
-      );
+    LOGOUT({ commit }, {}) {
+      commit("LOGOUT");
+
+      return true;
     },
     // 언어
     LANG({ commit }, { lang }) {

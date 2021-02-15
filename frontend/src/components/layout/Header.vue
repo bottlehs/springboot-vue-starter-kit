@@ -15,14 +15,14 @@
         </b-navbar-nav>
         <b-navbar-nav class="ml-auto">
           <b-nav-item-dropdown text="Lang" right>
-            <b-dropdown-item href="#">KO</b-dropdown-item>
-            <b-dropdown-item href="#">EN</b-dropdown-item>
+            <b-dropdown-item href="#" @click.prevent.stop="locales('ko')">{{ $t('lang_ko') }}</b-dropdown-item>
+            <b-dropdown-item href="#" @click.prevent.stop="locales('en')">{{ $t('lang_en') }}</b-dropdown-item>
           </b-nav-item-dropdown>
           <b-nav-item-dropdown right>
             <template #button-content>
               <em>User</em>
             </template>
-            <b-dropdown-item href="#">Sign Out</b-dropdown-item>
+            <b-dropdown-item href="#" @click.prevent.stop="logout">{{ $t('logout') }}</b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
       </b-collapse>
@@ -95,6 +95,31 @@ export default {
     /**
      * methods
      */
+    locales(lang) {
+      this.$store
+        .dispatch("LANG", {
+          lang: lang
+        })
+        .then(response => {
+          console.log(response);
+          this.$i18n.locale = lang;
+          this.moment.locale(lang);
+        })
+        .catch(({ message }) => console.log(message));
+    },
+    logout() {
+      this.$store
+        .dispatch("LOGOUT", {})
+        .then(response => {
+          console.log(response);
+          if (response) {
+            this.$router.push({
+              name: "Login"
+            });
+          }
+        })
+        .catch(({ message }) => console.log(message));
+    }
   }
 };
 </script>

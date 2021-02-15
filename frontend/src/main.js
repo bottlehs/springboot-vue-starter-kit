@@ -9,7 +9,7 @@ import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
 
-import '@/assets/scss/theme.scss';
+import "@/assets/scss/theme.scss";
 
 // lang
 let lang = Lang.getLang();
@@ -49,8 +49,11 @@ import * as rules from "vee-validate/dist/rules";
 for (let rule in rules) {
   extend(rule, rules[rule]);
 }
+
+import en from "vee-validate/dist/locale/en.json";
 import ko from "vee-validate/dist/locale/ko.json";
 localize({
+  en,
   ko
 });
 localize("ko");
@@ -61,6 +64,7 @@ Vue.config.productionTip = false;
 
 new Vue({
   i18n,
+  moment,
   router,
   store,
   render: h => h(App)
