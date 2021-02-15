@@ -5,7 +5,7 @@
     </div>
     <div v-else>
       <ValidationObserver v-slot="{ invalid }">
-        <form @submit.prevent="onSubmit" @reset="onReset">
+        <b-form @submit.prevent="onSubmit" @reset="onReset">
           <ValidationProvider
             ref="validationFormEmail"
             :name="$t('user_email')"
@@ -75,15 +75,15 @@
               {{ errors[0] }}
             </label>
           </ValidationProvider>
-          <button type="submit" :disabled="invalid || formWait">
+          <b-button type="submit" :disabled="invalid || formWait">
             <b-spinner
               v-if="formWait && formAction == 'onSubmit'"
               small
             ></b-spinner
             >{{ id ? $t("modify") : $t("add") }}
-          </button>
-          <button type="reset" :disabled="formWait">{{ $t("cancel") }}</button>
-          <button
+          </b-button>
+          <b-button type="reset" :disabled="formWait">{{ $t("cancel") }}</b-button>
+          <b-button
             v-if="id"
             type="button"
             @click.prevent.stop="remove"
@@ -94,8 +94,8 @@
               small
             ></b-spinner
             >{{ $t("remove") }}
-          </button>
-        </form>
+          </b-button>
+        </b-form>
       </ValidationObserver>
     </div>
   </div>
@@ -216,7 +216,7 @@ export default {
     async onSubmit(evt) {
       evt.preventDefault();
 
-      this.formWait = false;
+      this.formWait = true;
       this.formAction = "onSubmit";
 
       let params = {

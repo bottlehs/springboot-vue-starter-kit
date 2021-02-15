@@ -49,8 +49,11 @@ import * as rules from "vee-validate/dist/rules";
 for (let rule in rules) {
   extend(rule, rules[rule]);
 }
+
+import en from "vee-validate/dist/locale/en.json";
 import ko from "vee-validate/dist/locale/ko.json";
 localize({
+  en,
   ko
 });
 localize("ko");

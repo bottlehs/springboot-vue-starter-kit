@@ -15,14 +15,14 @@
         </b-navbar-nav>
         <b-navbar-nav class="ml-auto">
           <b-nav-item-dropdown text="Lang" right>
-            <b-dropdown-item href="#" @click.prevent.stop="locales('ko')">KO</b-dropdown-item>
-            <b-dropdown-item href="#" @click.prevent.stop="locales('en')">EN</b-dropdown-item>
+            <b-dropdown-item href="#" @click.prevent.stop="locales('ko')">{{ $t('lang_ko') }}</b-dropdown-item>
+            <b-dropdown-item href="#" @click.prevent.stop="locales('en')">{{ $t('lang_en') }}</b-dropdown-item>
           </b-nav-item-dropdown>
           <b-nav-item-dropdown right>
             <template #button-content>
               <em>User</em>
             </template>
-            <b-dropdown-item href="#" @click.prevent.stop="logout">Sign Out</b-dropdown-item>
+            <b-dropdown-item href="#" @click.prevent.stop="logout">{{ $t('logout') }}</b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
       </b-collapse>

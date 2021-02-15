@@ -58,15 +58,15 @@
               {{ errors[0] }}
             </label>
           </ValidationProvider>
-          <button type="submit" :disabled="invalid || formWait">
+          <b-button type="submit" :disabled="invalid || formWait">
             <b-spinner
               v-if="formWait && formAction == 'onSubmit'"
               small
             ></b-spinner
             >{{ id ? $t("modify") : $t("add") }}
-          </button>
-          <button type="reset" :disabled="formWait">{{ $t("cancel") }}</button>
-          <button
+          </b-button>
+          <b-button type="reset" :disabled="formWait">{{ $t("cancel") }}</b-button>
+          <b-button
             v-if="id"
             type="button"
             @click.prevent.stop="remove"
@@ -77,7 +77,7 @@
               small
             ></b-spinner
             >{{ $t("remove") }}
-          </button>
+          </b-button>
         </form>
       </ValidationObserver>
     </div>
@@ -112,6 +112,7 @@ export default {
        * item : 응답 데이터
        * wait : 로딩
        * formWait : 폼 로딩
+       * formAction : 폼 액션
        * form : 폼
        */
 
@@ -194,7 +195,7 @@ export default {
     async onSubmit(evt) {
       evt.preventDefault();
 
-      this.formWait = false;
+      this.formWait = true;
 
       let params = {
         title: this.form.title,
@@ -251,6 +252,9 @@ export default {
     },
     remove() {
       if (confirm(this.$t("remove_text"))) {
+        this.formWait = true;
+        this.formAction = 'remove';
+
         NoticeService.remove(this.id).then(
           response => {
             const { data } = response;
