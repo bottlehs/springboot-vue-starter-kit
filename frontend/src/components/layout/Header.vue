@@ -20,7 +20,7 @@
           </b-nav-item-dropdown>
           <b-nav-item-dropdown right>
             <template #button-content>
-              <em>User</em>
+              <em>{User Name}</em>
             </template>
             <b-dropdown-item href="#" @click.prevent.stop="logout">{{ $t('logout') }}</b-dropdown-item>
           </b-nav-item-dropdown>
