@@ -1,86 +1,90 @@
-# SPRINGBOOT-BACKEND
+# SPRINGBOOT-VUE-STARTER-KIT-BACKEND
 
-- SPRINGBOOT-BACKEND 개발 관련 내용을 기술한다.
+- SPRINGBOOT-VUE-STARTER-KIT-BACKEND 개발 관련 내용을 기술한다.
 
 # 이력
 
 - v0.0.1
-  - 2020.07.14
+  - 2021.01.16
     - 최초 등록
     - 개발프로세스, 소스코드관리 방법
+  - 2021.01.23
+    - 라이브러리 정리
+    - 개발 구조 정리
+  - 2021.01.24
+    - JWT 개발
+  - 2021.01.30
+    - 회원, 공지사항 CRUD 개발
+    - Swagget UI 적용
 
 # 구성
 
   <!-- blank line -->
 
 - 환경
+
   - windows 10, mac
   - visual studio code
   - github v2.1.3
+  - mariadb v10.5
+  - node v12.5.0
+  - npm v6.9.0
+  - openjdk v1.8
 
-  <!-- blank line -->
+  ## <!-- blank line -->
 
-- 라이브러리-FrontEnd
-
-  - @vue/eslint-config-standard / 5.1.2
-  - animate.css / 3.6.1
-  - apexcharts / 3.8.6
-  - awesome-bootstrap-checkbox / 1.0.1
-  - axios / 0.19.2
-  - bootstrap / 4.1.1
-  - bootstrap-vue / 2.0.3
-  - css-loader / 1.0.0
-  - echarts / 4.3.0
-  - eslint / 6.8.0
-  - eslint-config-airbnb / 18.1.0
-  - eslint-config-standard / 14.1.1
-  - eslint-plugin-vue / 6.2.2
-  - expose-loader / 0.7.5
-  - font-awesome / 4.7.0
-  - glyphicons-halflings / 1.9.1
-  - highcharts / 7.2.0
-  - highcharts-vue / 1.3.5
-  - imports-loader / 0.8.0
-  - line-awesome / 1.3.0
-  - moment / 2.25.3
-  - node-sass / 4.9.0
-  - path / 0.12.7
-  - rickshaw / 1.6.6
-  - sass-loader / 7.0.1
-  - tiptap / 1.27.1
-  - tiptap-extensions / 1.29.1
-  - vue / 2.5.17
-  - vue-apexcharts / 1.5.0
-  - vue-echarts / 4.0.4
-  - vue-router / 3.0.1
-  - vue-toasted / 1.1.27
-  - vue-touch / 2.0.0-beta.4
-  - vue2-daterange-picker / 0.5.0
-  - vue2-editor / 2.10.2
-  - vuetrend / 0.3.2
-  - vuex / 3.0.1
-  - webpack-cli / 3.1.2
-
-- 라이브러리-BackEnd
+- 라이브러리
+  - io.jsonwebtoken:jjwt / 0.9.1
   - springfox-swagger2 / 2.9.2
   - springfox-swagger-ui / 2.9.2
-  - jjwt / 0.9.1
+  - javax.servlet:jstl / 1.2
+  - jackson-dataformat-yaml / 2.10.3
+  - com.google.code.gson / 2.7
 
 # 실행
 
 - Visual Studio Code 실행
-- FrontEnd
+- mariadb 실행
+- springbootbackend db 생성
+- ./gradlew bootRun
 
-  - cd src/frontend
-  - npm install
-  - npm run serve
+# 배포 ( war )
 
-- BackEnd
-  - ./gradlew bootRun
-  - ./gradlew clean build
-  - ./gradlew bootwar
+- ./gradlew clean build
+- ./gradlew bootwar
+
+# 주석
+
+- TODO : 좀더 최적화시키고 리팩토링시킬 수 있을만한 구석이 있을때. 미래에 뭔가 의미있는 작업을 더 해야 할 필요성을 느낄때.
+- FIXME : 문제가 있는것이 확실하지만, 그걸 지금 당장 그것을 수정할 필요는 없을 때.
+- XXX : 해당 부분에 대해서는 더 생각해볼 필요성이 있을 때. 또는 해당 부분에 질문이 생길 때. 또는 코드에서 문제가 일어날만한 부분을 강조 표기할때. 완벽하게 정확히 구현되지 않은 부분이 있을 때. 나중에 고쳐야만하는 부분일 때.
 
 # 개발
+
+## 구조
+
+```sh
+src
+├── frontend // 백엔드와 프론트엔드를 동시에 빌드할경우 프론트엔드 폴더내 코드 이동
+└── main
+│ └── java
+│   ├── config // 설정
+│   ├── controller // 컨트롤러
+│   ├── entity // 엔티티
+│   ├── exception // 공통 예외
+│   ├── module // 모듈관리
+│   ├── repository // JpaRepository 관리
+│   └── service // 서비스 관리
+│ └── resources // 리소트 관리
+└── test // 단위 테스트
+```
+
+## 리소스
+
+- application.properties
+  - spring.datasource.url : DB Address / DB Name
+  - spring.datasource.username : DB ID
+  - spring.datasource.password : DB Password
 
 ## 개발 프로세스
 
@@ -106,7 +110,7 @@
 
 - 해당 브랜치 구조는 git-flow 정책을 따름
 
-- 브랜치 구조  
+- 브랜치 구조
   feature - develop - release - tag - master - hotfix
   - feature : 테스크 단위 브랜치
   - develop : 전체 개발 단위 브랜치
