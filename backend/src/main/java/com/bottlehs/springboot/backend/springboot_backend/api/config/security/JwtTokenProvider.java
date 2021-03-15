@@ -22,9 +22,9 @@ import org.slf4j.LoggerFactory;
 
 @Component
 public class JwtTokenProvider {
-    private Logger log = LoggerFactory.getLogger(this.getClass());   
+    private Logger log = LoggerFactory.getLogger(this.getClass());
 
-    private String secretKey = "efin";
+    private String secretKey = "svsk";
 
     // 토큰 유효시간 30분
     private long tokenValidTime = 30 * 60 * 1000L;
@@ -33,7 +33,7 @@ public class JwtTokenProvider {
 
     public JwtTokenProvider(UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
-    }    
+    }
 
     // 객체 초기화, secretKey를 Base64로 인코딩한다.
     @PostConstruct

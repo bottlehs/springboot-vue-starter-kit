@@ -36,15 +36,15 @@ sourceCompatibility = '1.8' // Java 8버전
 targetCompatibility = '1.8' // Java 8버전
 
 bootWar{ //bootWar Task시 이름 지정
-	archiveBaseName="efin"
-	archiveFileName="efin.war"	
+	archiveBaseName="svsk"
+	archiveFileName="svsk.war"
 	archiveVersion="0.0.1-SNAPSHOT"
 }
 
 configurations {
 	all {
 			exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
-	}	
+	}
 	developmentOnly
 	runtimeClasspath {
 		extendsFrom developmentOnly
@@ -63,10 +63,10 @@ dependencies {
 		// spring
 		compile 'org.apache.tomcat.embed:tomcat-embed-jasper'  //내장톰캣
 		implementation 'org.springframework.boot:spring-boot-starter-web'
-		providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat' 
+		providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 		implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     compile 'org.springframework.boot:spring-boot-starter-log4j2'   // log4j2
-		
+
 		// jwt
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
     implementation 'org.springframework.boot:spring-boot-starter-security'
@@ -74,12 +74,12 @@ dependencies {
 
 	  // swagger
     compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
-    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'	
+    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
 
 		// jpa
 		compile 'javax.servlet:jstl:1.2'    // jsp 의존성
 		compile 'org.mariadb.jdbc:mariadb-java-client' // MariaDB
-    compile group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-yaml', version: '2.10.3'   // log4j2		
+    compile group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-yaml', version: '2.10.3'   // log4j2
     compile("com.querydsl:querydsl-jpa")
     compile("com.querydsl:querydsl-apt")
 
