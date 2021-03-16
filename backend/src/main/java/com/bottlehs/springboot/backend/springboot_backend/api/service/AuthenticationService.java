@@ -8,5 +8,5 @@ import com.bottlehs.springboot.backend.springboot_backend.api.entity.User;
  */
 public interface AuthenticationService {
 
-    User authenticate(String token);
+  User authenticate(String token);
 }

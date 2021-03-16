@@ -17,14 +17,14 @@ import com.bottlehs.springboot.backend.springboot_backend.api.exception.Unauthor
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(UnauthorizedException.class)
-    protected ModelAndView handleUnauthorizedException(HttpServletRequest request, HttpServletResponse response,
-            Object handler, Exception ex) {
+  @ExceptionHandler(UnauthorizedException.class)
+  protected ModelAndView handleUnauthorizedException(HttpServletRequest request,
+      HttpServletResponse response, Object handler, Exception ex) {
 
-        // 응답헤더에 WWW-Authenticate를 추가
-        response.setHeader("WWW-Authenticate", "Basic realm=\"Access to user information\"");
+    // 응답헤더에 WWW-Authenticate를 추가
+    response.setHeader("WWW-Authenticate", "Basic realm=\"Access to user information\"");
 
-        // ResponseStatusExceptionResolver를 통해 exception을 응답 모델로 변경
-        return new ResponseStatusExceptionResolver().resolveException(request, response, handler, ex);
-    }
+    // ResponseStatusExceptionResolver를 통해 exception을 응답 모델로 변경
+    return new ResponseStatusExceptionResolver().resolveException(request, response, handler, ex);
+  }
 }

@@ -37,69 +37,71 @@ import com.bottlehs.springboot.backend.springboot_backend.api.service.NoticeServ
 @Api(tags = "공지사항")
 @RequestMapping(value = "/api")
 public class NoticeController {
-    private Logger log = LoggerFactory.getLogger(this.getClass());
+  private Logger log = LoggerFactory.getLogger(this.getClass());
 
-    private final NoticeService noticeService;
+  private final NoticeService noticeService;
 
-    public NoticeController(NoticeService noticeService) {
-        this.noticeService = noticeService;
-    }
+  public NoticeController(NoticeService noticeService) {
+    this.noticeService = noticeService;
+  }
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @ApiOperation(value = "조회", notes = "전체 조회", tags = "공지사항")
-    @GetMapping(value = "/notice")
-    @ResponseStatus(value = HttpStatus.OK)
-    public List<Notice> getAll() {
-        return noticeService.getAll();
-    }
+  @ManyToMany(fetch = FetchType.LAZY)
+  @ApiOperation(value = "조회", notes = "전체 조회", tags = "공지사항")
+  @GetMapping(value = "/notice")
+  @ResponseStatus(value = HttpStatus.OK)
+  public List<Notice> getAll() {
+    return noticeService.getAll();
+  }
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @ApiOperation(value = "조회-단건", notes = "단건 조회", tags = "공지사항")
-    @GetMapping(value = "/notice/{id}")
-    @ResponseStatus(value = HttpStatus.OK)
-    public Notice get(@PathVariable Integer id) {
-        return noticeService.getId(id);
-    }
+  @ManyToMany(fetch = FetchType.LAZY)
+  @ApiOperation(value = "조회-단건", notes = "단건 조회", tags = "공지사항")
+  @GetMapping(value = "/notice/{id}")
+  @ResponseStatus(value = HttpStatus.OK)
+  public Notice get(@PathVariable Integer id) {
+    return noticeService.getId(id);
+  }
 
-    @ApiOperation(value = "등록", notes = "등록", tags = "공지사항")
-    @PostMapping(value = "/notice")
-    @ResponseStatus(value = HttpStatus.OK)
-    public Notice add(@RequestBody Notice notice) {
-        return noticeService.add(notice.getTitle(), notice.getCont(), notice.getTp());
-    }
+  @ApiOperation(value = "등록", notes = "등록", tags = "공지사항")
+  @PostMapping(value = "/notice")
+  @ResponseStatus(value = HttpStatus.OK)
+  public Notice add(@RequestBody Notice notice) {
+    return noticeService.add(notice.getTitle(), notice.getCont(), notice.getTp());
+  }
 
-    @ApiOperation(value = "삭제", notes = "전체 삭제", tags = "공지사항")
-    @DeleteMapping(value = "/notice")
-    @ResponseStatus(value = HttpStatus.OK)
-    public void removeAll() {
-        noticeService.removeAll();
-    }
+  @ApiOperation(value = "삭제", notes = "전체 삭제", tags = "공지사항")
+  @DeleteMapping(value = "/notice")
+  @ResponseStatus(value = HttpStatus.OK)
+  public void removeAll() {
+    noticeService.removeAll();
+  }
 
-    @ApiOperation(value = "삭제-단건", notes = "단건 삭제", tags = "공지사항")
-    @DeleteMapping(value = "/notice/{id}")
-    @ResponseStatus(value = HttpStatus.OK)
-    public void remove(@PathVariable Integer id) {
-        noticeService.remove(id);
-    }
+  @ApiOperation(value = "삭제-단건", notes = "단건 삭제", tags = "공지사항")
+  @DeleteMapping(value = "/notice/{id}")
+  @ResponseStatus(value = HttpStatus.OK)
+  public void remove(@PathVariable Integer id) {
+    noticeService.remove(id);
+  }
 
-    @ApiOperation(value = "수정", notes = "단건 수정", tags = "공지사항")
-    @PutMapping(value = "/notice/{id}")
-    @ResponseStatus(value = HttpStatus.OK)
-    public Notice modify(@PathVariable Integer id, @RequestBody Notice notice) {
-        return noticeService.modify(id, notice.getTitle(), notice.getCont(), notice.getTp());
-    }
+  @ApiOperation(value = "수정", notes = "단건 수정", tags = "공지사항")
+  @PutMapping(value = "/notice/{id}")
+  @ResponseStatus(value = HttpStatus.OK)
+  public Notice modify(@PathVariable Integer id, @RequestBody Notice notice) {
+    return noticeService.modify(id, notice.getTitle(), notice.getCont(), notice.getTp());
+  }
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @ApiOperation(value = "조회-검색", notes = "전체 조회-검색", tags = "공지사항")
-    @GetMapping(value = "/notice/search")
-    @ResponseStatus(value = HttpStatus.OK)
-    public Page<Notice> searchNotice(@RequestParam(value = "id", required = false) String id,
-            @RequestParam(value = "title", required = false) String title,
-            @RequestParam(value = "cont", required = false) String cont,
-            @RequestParam(value = "tp", required = false) String tp,
-            @RequestParam(value = "start_dt", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date start_dt,
-            @RequestParam(value = "end_dt", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date end_dt,
-            @PageableDefault(sort = { "reg_dt" }, direction = Sort.Direction.DESC) Pageable pageable) {
-        return noticeService.searchNotice(id, title, cont, tp, start_dt, end_dt, pageable);
-    }
+  @ManyToMany(fetch = FetchType.LAZY)
+  @ApiOperation(value = "조회-검색", notes = "전체 조회-검색", tags = "공지사항")
+  @GetMapping(value = "/notice/search")
+  @ResponseStatus(value = HttpStatus.OK)
+  public Page<Notice> searchNotice(@RequestParam(value = "id", required = false) String id,
+      @RequestParam(value = "title", required = false) String title,
+      @RequestParam(value = "cont", required = false) String cont,
+      @RequestParam(value = "tp", required = false) String tp,
+      @RequestParam(value = "start_dt", required = false)
+      @DateTimeFormat(pattern = "yyyy-MM-dd") Date start_dt,
+      @RequestParam(value = "end_dt", required = false)
+      @DateTimeFormat(pattern = "yyyy-MM-dd") Date end_dt,
+      @PageableDefault(sort = {"reg_dt"}, direction = Sort.Direction.DESC) Pageable pageable) {
+    return noticeService.searchNotice(id, title, cont, tp, start_dt, end_dt, pageable);
+  }
 }
