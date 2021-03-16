@@ -15,17 +15,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @SpringBootApplication
 
 public class RestApiApplication extends SpringBootServletInitializer {
-    @Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-        return builder.sources(RestApiApplication.class);
-    }
+  @Override
+  protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+    return builder.sources(RestApiApplication.class);
+  }
 
-    public static void main(String[] args) {
-        SpringApplication.run(RestApiApplication.class, args);
-    }
+  public static void main(String[] args) {
+    SpringApplication.run(RestApiApplication.class, args);
+  }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-    }
+  @Bean
+  public PasswordEncoder passwordEncoder() {
+    return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+  }
 }

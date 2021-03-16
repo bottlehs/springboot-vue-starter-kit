@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.GetMapping;
  */
 @Controller
 public class HomeController {
-    private Logger log = LoggerFactory.getLogger(this.getClass());
+  private Logger log = LoggerFactory.getLogger(this.getClass());
 
-    @GetMapping("/")
-    public String index() {
-        return "index.html";
-    }
+  @GetMapping("/")
+  public String index() {
+    return "index.html";
+  }
 
 }

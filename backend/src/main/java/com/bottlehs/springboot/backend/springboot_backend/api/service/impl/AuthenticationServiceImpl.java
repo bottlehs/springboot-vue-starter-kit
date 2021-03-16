@@ -16,39 +16,39 @@ import com.bottlehs.springboot.backend.springboot_backend.api.service.Authentica
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
 
-    private final UserRepository userRepository;
+  private final UserRepository userRepository;
 
-    @Autowired
-    public AuthenticationServiceImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
+  @Autowired
+  public AuthenticationServiceImpl(UserRepository userRepository) {
+    this.userRepository = userRepository;
+  }
+
+  @Override
+  public User authenticate(String token) {
+    try {
+      // authorization으로부터 type과 credential을 분리
+      String[] split = token.split(" ");
+      String type = split[0];
+      String credential = split[1];
+
+      if ("Basic".equalsIgnoreCase(type)) {
+        // credential을 디코딩하여 email과 password를 분리
+        String decoded = new String(Base64Utils.decodeFromString(credential));
+        String[] emailAndPassword = decoded.split(":");
+
+        User user = userRepository.findByEmailAndPassword(emailAndPassword[0], emailAndPassword[1]);
+        if (user == null)
+          throw new UnauthorizedException("Invalid credentials");
+        else
+          return user;
+
+      } else {
+        throw new UnauthorizedException("Unsupported type: " + type);
+
+      }
+
+    } catch (IllegalArgumentException | ArrayIndexOutOfBoundsException ex) {
+      throw new UnauthorizedException("Invalid credentials");
     }
-
-    @Override
-    public User authenticate(String token) {
-        try {
-            // authorization으로부터 type과 credential을 분리
-            String[] split = token.split(" ");
-            String type = split[0];
-            String credential = split[1];
-
-            if ("Basic".equalsIgnoreCase(type)) {
-                // credential을 디코딩하여 email과 password를 분리
-                String decoded = new String(Base64Utils.decodeFromString(credential));
-                String[] emailAndPassword = decoded.split(":");
-
-                User user = userRepository.findByEmailAndPassword(emailAndPassword[0], emailAndPassword[1]);
-                if (user == null)
-                    throw new UnauthorizedException("Invalid credentials");
-                else
-                    return user;
-
-            } else {
-                throw new UnauthorizedException("Unsupported type: " + type);
-
-            }
-
-        } catch (IllegalArgumentException | ArrayIndexOutOfBoundsException ex) {
-            throw new UnauthorizedException("Invalid credentials");
-        }
-    }
+  }
 }
