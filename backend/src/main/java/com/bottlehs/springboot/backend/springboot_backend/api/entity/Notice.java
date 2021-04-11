@@ -7,7 +7,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
+import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import com.bottlehs.springboot.backend.springboot_backend.api.module.common.base.entity.BaseEntity;
 import com.bottlehs.springboot.backend.springboot_backend.api.module.common.base.entity.Comment;
 
@@ -15,25 +21,36 @@ import com.bottlehs.springboot.backend.springboot_backend.api.module.common.base
  * @author bottlehs
  * @since 2020.04.18
  */
+
+@Setter
+@Getter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Notice extends BaseEntity {
   private static final long serialVersionUID = 9141498463876264960L;
 
   @Comment("식별자")
+  @ApiModelProperty("식별자")
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
   @Comment("제목")
+  @ApiModelProperty("제목")
   @Column(length = 100)
   private String title;
 
   @Comment("내용")
+  @ApiModelProperty("내용")
   @Column(length = 10000)
   private String cont;
 
   @Comment("분류")
+  @ApiModelProperty("분류")
   @Column(length = 10)
   private String tp;
 

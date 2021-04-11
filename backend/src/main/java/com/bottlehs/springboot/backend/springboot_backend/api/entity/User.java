@@ -14,10 +14,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
+import io.swagger.annotations.ApiModelProperty;
 import com.bottlehs.springboot.backend.springboot_backend.api.module.common.base.entity.BaseEntity;
 import com.bottlehs.springboot.backend.springboot_backend.api.module.common.base.entity.Comment;
 
@@ -32,7 +34,10 @@ import java.util.stream.Collectors;
  * @since 2021.02.04
  */
 
+@Setter
 @Getter
+@ToString
+@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
@@ -45,23 +50,28 @@ public class User extends BaseEntity implements UserDetails {
   private Integer id;
 
   @Comment("이메일")
+  @ApiModelProperty("이메일")
   @Column(length = 64)
   private String email;
 
   @Comment("비밀번호")
+  @ApiModelProperty("비밀번호")
   @Column(length = 255)
   private String password;
 
   @Comment("역할")
+  @ApiModelProperty("역할")
   @ElementCollection(fetch = FetchType.EAGER)
   @Builder.Default
   private List<String> roles = new ArrayList<>();
 
   @Comment("이름")
+  @ApiModelProperty("이름")
   @Column(length = 64)
   private String first_name;
 
   @Comment("성")
+  @ApiModelProperty("성")
   @Column(length = 64)
   private String last_name;
 
