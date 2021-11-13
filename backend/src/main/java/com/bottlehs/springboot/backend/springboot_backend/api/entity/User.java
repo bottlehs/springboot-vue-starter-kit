@@ -37,7 +37,6 @@ import java.util.stream.Collectors;
 @Setter
 @Getter
 @ToString
-@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
@@ -75,8 +74,7 @@ public class User extends BaseEntity implements UserDetails {
   @Column(length = 64)
   private String last_name;
 
-  protected User() {
-  }
+  protected User() {}
 
   public User(String email, String password, List<String> roles) {
     this.email = email;

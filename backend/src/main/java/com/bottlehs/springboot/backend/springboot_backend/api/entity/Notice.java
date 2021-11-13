@@ -25,7 +25,6 @@ import com.bottlehs.springboot.backend.springboot_backend.api.module.common.base
 @Setter
 @Getter
 @ToString
-@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
@@ -54,8 +53,7 @@ public class Notice extends BaseEntity {
   @Column(length = 10)
   private String tp;
 
-  protected Notice() {
-  }
+  protected Notice() {}
 
   public Notice(String title, String cont, String tp) {
     this.title = title;
